@@ -19,6 +19,9 @@ d5 = new Door 5, 5
 wss.on 'connection', (ws) ->
   console.log 'got a connection!'
   allsockets.push(ws)
+  ws.on 'close', (code, error) ->
+    console.log "socket closed. #{code} #{error}"
+    allsockets = allsockets.filter (el) -> el != ws
   ws.on 'message', (packet) ->
     console.log "received: #{packet}"
     msg = JSON.parse packet
@@ -53,8 +56,7 @@ send = (ws, p) ->
 sendAll = (p) ->
   s = JSON.stringify p
   for ws in allsockets
-    if ws? # HACK TEMP FIX
-      ws.send s
+    ws.send s
 
 # transmit deltas to all clients, 10 times a second
 setInterval(() ->
