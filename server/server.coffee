@@ -53,7 +53,8 @@ send = (ws, p) ->
 sendAll = (p) ->
   s = JSON.stringify p
   for ws in allsockets
-    ws.send s
+    if ws? # HACK TEMP FIX
+      ws.send s
 
 # transmit deltas to all clients, 10 times a second
 setInterval(() ->
