@@ -2,11 +2,11 @@ ws = {}
 
 connect = (url) ->
   ws = new WebSocket url
-  ws.onclose = () -> status "<h1>Connection closed!</h1> Is the server up? TODO: something appropriate here"
+  ws.onclose = () -> App.status "<h1>Connection closed!</h1> Is the server up? TODO: something appropriate here"
   ws.onopen = () ->
     App.status "Connection established."
     ws.send (JSON.stringify {id: "HELLO"})
-  ws.onerror = (err) -> status err # TODO something better
+  ws.onerror = (err) -> App.status err # TODO something better
 
   ws.onmessage = (packet) ->
     console.log "got message #{packet.data}! :3"
