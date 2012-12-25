@@ -87,6 +87,7 @@
 
     Graphics.prototype.draw = function() {
       var depth, ks, _i, _len, _results;
+      ctx.fillRect(0, 0, 640, 400);
       ks = Object.keys(App.tiles).slice(0).sort();
       _results = [];
       for (_i = 0, _len = ks.length; _i < _len; _i++) {
@@ -106,7 +107,7 @@
 
   $(sprs).on('load', function() {
     App.status("Loaded spritesheet!");
-    App.graphics.spritesheet = sprs;
+    App.graphics.spritesheet = App.makeTilesetTransparent(sprs);
     return setInterval(function() {
       return App.graphics.draw();
     }, 10);

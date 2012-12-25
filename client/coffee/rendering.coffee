@@ -14,10 +14,11 @@ ctx.fillRect(0, 0, 640, 400)
 
 class Graphics
   constructor: (@ctx) ->
+    that = this
     @camera = {
       x: 0
       y: 0
-      bounds: () -> {x1: @camera.x, y1: @camera.y, x2: @camera.x + 640, y2: @camera.y + 400}
+      bounds: () -> {x1: that.camera.x, y1: that.camera.y, x2: that.camera.x + 640, y2: that.camera.y + 400}
     }
     @spritesheet = null
     @tilesize = 32
@@ -53,7 +54,7 @@ class Graphics
 
   draw: () ->
     # clear to black
-    #ctx.fillRect(0, 0, 640, 400)
+    ctx.fillRect(0, 0, 640, 400)
 
     # Render layers in the correct order.
     # (Layers with greater (more positive) depth values are rendered on top of ones with lesser.)
@@ -72,7 +73,7 @@ sprs = new Image
 $(sprs).on('load', () ->
 
   App.status "Loaded spritesheet!"
-  App.graphics.spritesheet = sprs
+  App.graphics.spritesheet = App.makeTilesetTransparent sprs
 
   # start renderer!
   setInterval(() ->

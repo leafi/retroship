@@ -59,7 +59,7 @@
               }
             }
           } else {
-            _results.push(void 0);
+            _results.push(alert("No action handler set client-side for object of type '" + o.type + "'!  (Add the entry to client/handlers.coffee?)"));
           }
         } else {
           _results.push(App.status(' clicked tile contained object, but the object hasn\'t been synced to the client!!'));

@@ -12,3 +12,5 @@ exports.openDoor = [2,0]
 exports.doorSwitchOn = [0,0] # TODO
 exports.doorSwitchOff = [0,0] # TODO
 
+exports.redBox = [0,1]
+exports.yellowBox = [1,1]

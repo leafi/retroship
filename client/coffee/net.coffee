@@ -32,7 +32,7 @@ App.netsend = (m) ->
   if ws?
     ws.send (JSON.stringify m)
 
-url = 'ws://localhost:8080/retroship'
+url = 'ws://localhost:8081/retroship'
 App.status "Connecting to server #{url}..."
 
 connect url

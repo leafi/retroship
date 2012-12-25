@@ -7,7 +7,7 @@
   connect = function(url) {
     ws = new WebSocket(url);
     ws.onclose = function() {
-      return status("<h1>Connection closed!</h1> Is the server up? TODO: something appropriate here");
+      return App.status("<h1>Connection closed!</h1> Is the server up? TODO: something appropriate here");
     };
     ws.onopen = function() {
       App.status("Connection established.");
@@ -16,7 +16,7 @@
       }));
     };
     ws.onerror = function(err) {
-      return status(err);
+      return App.status(err);
     };
     return ws.onmessage = function(packet) {
       var msg;
@@ -47,7 +47,7 @@
     }
   };
 
-  url = 'ws://localhost:8080/retroship';
+  url = 'ws://localhost:8081/retroship';
 
   App.status("Connecting to server " + url + "...");
 

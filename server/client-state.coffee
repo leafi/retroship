@@ -64,15 +64,15 @@ exports.getServerObjectForChandle = (chandle) ->
   return chandleToServerObject[chandle]
 
 exports.updateTiles = (delta) ->
-  console.log "! UPDATE TILES !"
-  console.log "Given delta is #{JSON.stringify delta}"
-  console.log "Before update, tiles: #{JSON.stringify tiles}"
+  #console.log "! UPDATE TILES !"
+  #console.log "Given delta is #{JSON.stringify delta}"
+  #console.log "Before update, tiles: #{JSON.stringify tiles}"
   tiles = $.extend true, tiles, delta
-  console.log "After update, tiles: #{JSON.stringify tiles}"
+  #console.log "After update, tiles: #{JSON.stringify tiles}"
+  #console.log "Before update delta: #{JSON.stringify tilesDelta}"
   # TODO: omit unnecessary tile information
-  console.log "Before update delta: #{JSON.stringify tilesDelta}"
   tilesDelta = $.extend true, tilesDelta, delta
-  console.log "After update delta: #{JSON.stringify tilesDelta}"
+  #console.log "After update delta: #{JSON.stringify tilesDelta}"
 
 
 exports.updateTile = (layer, x, y, txy, chandle) ->

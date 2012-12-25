@@ -31,6 +31,8 @@ $('#canvas').mousedown (mev) ->
           else # RMB or w/e dontcare
             if ah.rightClick?
               ah.rightClick o, (p) -> App.netsend {id: 'ACTION', chandle: chandle, p: p}
+        else
+          alert "No action handler set client-side for object of type '#{o.type}'!  (Add the entry to client/handlers.coffee?)"
 
       else
         App.status ' clicked tile contained object, but the object hasn\'t been synced to the client!!'

@@ -4,7 +4,9 @@ wires = require('./wires')
 sprites = require('./sprites')
 
 #
-# A door that takes 1s to open/close.
+# A door that takes 0.5s to switch states.
+# (If switching is request while it's already in the process of switching, the request
+#   is simply discarded.)
 #
 
 # The server instantiates only the Door class.
@@ -12,35 +14,33 @@ sprites = require('./sprites')
 class DoorModel
   constructor: (@onDelayedToggle) ->
     @open = false
-    @waiting = false # after state toggled, wait 1s to apply
 
   # returns: toggling door state succeeded?
   toggle: () ->
-    if @waiting
-      console.log "toggle: Door is waiting"
-      @waitingFor = not @open
+    if @waitTimer?
+      console.log "toggle: Door is already toggling.  Ignoring request."
       return false
     else
-      console.log 'toggle: Door isn\'t waiting!!'
+      console.log 'toggle: Not waiting for existing toggling; let\'s toggle!'
+
+    console.log "toggle: setting up timer. door lock will be released when timer expires.."
 
     @open = not @open
-    console.log "toggle:  door -> #{@open}"
-
-    @waiting = true
-    console.log "toggle:  setting up waittimer"
 
     that = this
-    @waitTimer = setTimeout(() ->
-      console.log "toggle: im literally waittimer right now"
-      that.waiting = false
-      that.waitTimer = null
-      if that.waitingFor? and (that.waitingFor != that.open)
-        console.log "toggle:  waittimer:  waitingfor != @open; flipping"
-        that.open = not that.open
-        that.onDelayedToggle()
-      that.waitingFor = null
-    , 1000)
 
+    # timer for actually changing the tile
+    @waitTimer = setTimeout(() ->
+      console.log "toggle: timer expired; allow the door to be toggled again!"
+      that.waitTimer = null
+      #that.open = not that.open
+      #that.onDelayedToggle()
+    , 500)
+
+    # timer for relinquishing the lock, and allowing the door state to be toggled again
+
+
+    # false, because we haven't actually toggled the door state yet!
     return true
 
   destroy: () ->

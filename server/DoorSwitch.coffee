@@ -21,6 +21,7 @@ class DoorSwitch
     @hp = 100
     @frying = false
     @chandle = state.addObject this, {type: 'CDoorSwitch', pulseTime: @pulseTime, on: false, hp: @hp, frying: @frying, x: @x, y: @y}
+    cstate.updateTile sprites.layerControlPanels, @x, @y, sprites.doorSwitchOff, @chandle
 
   action: (from, p) ->
     # ignore permissions, in range-ness for now
@@ -90,7 +91,7 @@ class DoorSwitch
     if @frying
       return
 
-    cstate.updateTile sprites.layerControlPanels, @x, @y, sprites.doorSwitchOn
+    cstate.updateTilePaint sprites.layerControlPanels, @x, @y, sprites.doorSwitchOn
     wires.signal this, wires.yellow, 1
     cstate.updateObject @chandle, {on: true}
 
@@ -100,7 +101,9 @@ class DoorSwitch
     # turn switch off again after (@pulseTime ms)
     that = this
     @timeout = setTimeout(() ->
+      cstate.updateTilePaint sprites.layerControlPanels, @x, @y, sprites.doorSwitchOff
       wires.signal that, wires.yellow, 0
+      cstate.updateObject @chandle, {on: false}
       that.timeout = null
     , @pulseTime)
 

@@ -1,7 +1,18 @@
 #require('coffeescript') # we import coffeescript files
 
+# host web server (to serve static client assets)
+console.log 'start host web server'
+connect = require('connect')
+assethost = connect()
+  .use(connect.logger 'dev')
+  .use(connect.static __dirname + '/../client')
+  .use(connect.staticCache)
+  .listen 8080
+
+# host game server
+console.log 'start host web socket (game) server'
 WebSocketServer = require('ws').Server
-wss = new WebSocketServer {port: 8080}
+wss = new WebSocketServer {port: 8081}
 
 cstate = require('./client-state')
 allsockets = []
@@ -14,6 +25,11 @@ d2 = new Door 2, 2
 d3 = new Door 3, 3
 d4 = new Door 4, 4
 d5 = new Door 5, 5
+
+ExampleBox = require('./ExampleBox').ExampleBox
+eb1 = new ExampleBox 2, 1
+eb2 = new ExampleBox 3, 1
+eb3 = new ExampleBox 4, 1
 # END TEST MAP
 
 wss.on 'connection', (ws) ->
