@@ -36,6 +36,9 @@ class ExampleBox
     # We pass the chandle so the client knows that actions can be done to the tile.
     cstate.updateTile sprites.layerObstructions, @x, @y, sprites.redBox, @chandle
 
+    # You can't walk through the box!
+    collision.set @x, @y, true
+
   action: (from, p) ->
     # if we receive an 'activate' message from the client...
     if p.action == 'ACTIVATE'
@@ -62,6 +65,7 @@ class ExampleBox
     #  and remove our tile and client-side object.
     cstate.removeTile sprites.layerObstructions, @x, @y
     cstate.removeObject @chandle
+    collision.set @x, @y, false
     @action = @destroy = @chandle = @resist = null
 
   resist: (dmgType, amount) ->
