@@ -1,9 +1,16 @@
 window.App = {}
 
+# delete the 'waiting for script...' line
+$('#log').html ''
+
+start = new Date().getTime()
 App.status = status = (s) ->
   if console?
     console.log s
-  $('#status').html s
+
+  t = (new Date().getTime() - start) / 1000
+  $('#log').html "<tr><td>#{t}</td><td>#{s}</td></tr>#{$('#log').html()}"
+  #$('#status').html s
 
 App.status "main.coffee has begun!"
 

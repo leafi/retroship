@@ -39,6 +39,9 @@ exports.addPlayer = (p) ->
   nextPlayerId++
   return id
 
+exports.getPlayer = (id) ->
+  return players[id]
+
 exports.removeObject = (id) ->
   delete objects[id]
   delete chandleToServerObject[id]

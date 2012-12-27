@@ -1,16 +1,50 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
 	<head>
 		<title>retroship</title>
+
+        <link rel="stylesheet" type="text/css" href="deps/bootstrap/css/bootstrap.css">
+
 	</head>
 
 	<body>
-		<canvas id="canvas" width="640" height="400">
-			Your browser doesn't seem to support the &lt;canvas&gt; tag.  Can't continue!
-		</canvas>
-		<p id="status">Waiting for script...</p>
+        <h1>Retroship</h1>
+
+        <div class="row">
+            <div class="span" style="width: 640px">
+                <canvas id="canvas" width="640" height="400">
+                    Your browser doesn't seem to support the &lt;canvas&gt; tag.  Can't continue!
+                </canvas>
+            </div>
+            <div class="span3">
+                <button class="btn btn-primary" id="btnJoinGame" style="width: 100%">
+                    <i class="icon-plus icon-white"></i> Join Game
+                </button>
+                <button class="btn btn-inverse" id="btnAdmin" style="width: 100%">
+                    <i class="icon-chevron-up icon-white"></i> Become Admin
+                </button>
+            </div>
+        </div>
+
+        <div class="span8">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>@</th>
+                        <th>Message</th>
+                    </tr>
+                </thead>
+                <tbody id="log">
+                    <tr>
+                        <td>0.000</td>
+                        <td>Waiting for script to load...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
 		<script type="text/javascript" src="deps/jquery-1.8.3.js"></script>
+        <script type="text/javascript" src="deps/bootstrap/js/bootstrap.js"></script>
 		<script type="text/javascript" src="js/jquery-extensions.js"></script>
 
         <script type="text/javascript" src="js/app.js"></script>

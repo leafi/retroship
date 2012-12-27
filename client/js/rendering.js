@@ -21,16 +21,18 @@
   Graphics = (function() {
 
     function Graphics(ctx) {
+      var that;
       this.ctx = ctx;
+      that = this;
       this.camera = {
         x: 0,
         y: 0,
         bounds: function() {
           return {
-            x1: this.camera.x,
-            y1: this.camera.y,
-            x2: this.camera.x + 640,
-            y2: this.camera.y + 400
+            x1: that.camera.x,
+            y1: that.camera.y,
+            x2: that.camera.x + 640,
+            y2: that.camera.y + 400
           };
         }
       };

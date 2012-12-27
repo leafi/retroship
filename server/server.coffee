@@ -16,6 +16,7 @@ wss = new WebSocketServer {port: 8081}
 
 cstate = require('./client-state')
 allsockets = []
+playersToSockets = {}
 
 Door = require('./Door').Door
 
@@ -45,16 +46,22 @@ wss.on 'connection', (ws) ->
       when 'HELLO'
         console.log ' client said hello - sending data...'
         # send everything
-        send ws, cstate.createWelcomePacket()
+        sendSocket ws, cstate.createWelcomePacket()
 
       when 'ACTION'
+        # !!!!!!!!!!!!!!!!!
+        # TODO: UNCOMMENT THIS WHEN PLAYER LOGGING IN WORKS
+        # !!!!!!!!!!!!!!!!!
+        #if not ws.player?
+        #  console.log "ACTION from player who isn't logged in; ignoring."
+        #  return
+
         console.log " ACTION from client to server object holding chandle #{msg.chandle}, giving packet #{JSON.stringify(msg.p)}"
         if msg.chandle? and msg.p?
           so = cstate.getServerObjectForChandle msg.chandle
           if so?
             if so.action?
-              # TODO: 'ws' probably isn't the right thing to send here
-              so.action ws, msg.p
+              so.action (cstate.getPlayer ws.player), msg.p
             else
               console.log '  ^ ACTION went to server object that doesn\'t support actions. ignoring.'
           else
@@ -62,12 +69,33 @@ wss.on 'connection', (ws) ->
         else
           console.log ' ACTION with invalid chandle and/or invalid packet. weird. ignoring. (client out of sync?) probably harmless.'
 
+      when 'REGISTER'
+        # already registered? KILL!
+        if ws.player?
+          ws.close()
+          return
+
+        ws.player = cstate.addPlayer {name: msg.name, inventory: [], active: [], x: 0, y: 0}
+        cstate.updatePlayer ws.player, {id: ws.player}
+        playersToSockets[ws.player] = ws
+        console.log "Player #{name} registers a connection."
+
+        sendSocket ws, {id: 'REGISTERED'}
+
+      when 'ADMIN_REGISTER'
+        # just always accept for now
+        ws.admin = true
+        console.log "Player #{if ws.player? then cstate.players()[ws.player].name else "(not registered)"} elevates to administrator"
+
       else
-        ws.close
+        ws.close()
         console.log "client killed due to received message with nonsensical id '#{msg.id}'"
 
-send = (ws, p) ->
+sendSocket = (ws, p) ->
   ws.send (JSON.stringify p)
+
+sendPlayer = (player, p) ->
+  playersToSockets[player].send (JSON.stringify p)
 
 sendAll = (p) ->
   s = JSON.stringify p

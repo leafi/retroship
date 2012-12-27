@@ -35,6 +35,8 @@
           App.players = $.extend(true, App.players, msg.players);
           App.tiles = $.extend(true, App.tiles, msg.tiles);
           return App.collision = $.extend(true, App.collision, msg.collision);
+        case 'REGISTERED':
+          return App.status("Joined the game successfully!");
         default:
           return App.status("Could not understand packet " + msg.id + ". Ignoring.");
       }

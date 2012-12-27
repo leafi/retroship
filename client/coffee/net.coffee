@@ -25,6 +25,8 @@ connect = (url) ->
         App.players = $.extend true, App.players, msg.players
         App.tiles = $.extend true, App.tiles, msg.tiles
         App.collision = $.extend true, App.collision, msg.collision
+      when 'REGISTERED'
+        App.status "Joined the game successfully!"
       else
         App.status "Could not understand packet #{msg.id}. Ignoring."
 
